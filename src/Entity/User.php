@@ -94,6 +94,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $contribution;
+
     public function __construct()
     {
         $this->subjects = new ArrayCollection();
@@ -198,7 +203,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->subjects->contains($subject)) {
             $this->subjects[] = $subject;
-            $subject->setUser($this);
+            $subject->setAuthor($this);
         }
 
         return $this;
@@ -208,8 +213,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->subjects->removeElement($subject)) {
             // set the owning side to null (unless already changed)
-            if ($subject->getUser() === $this) {
-                $subject->setUser(null);
+            if ($subject->getAuthor() === $this) {
+                $subject->setAuthor(null);
             }
         }
 
@@ -383,6 +388,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getContribution(): ?int
+    {
+        return $this->contribution;
+    }
+
+    public function setContribution(?int $contribution): self
+    {
+        $this->contribution = $contribution;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Subject;
 use App\Form\SubjectType;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/subject", name="subject_")
+ * @Route("/admin/subject", name="admin_subject_")
  */
 class SubjectController extends AbstractController
 {
@@ -22,7 +22,7 @@ class SubjectController extends AbstractController
      */
     public function index(SubjectRepository $subjectRepository): Response
     {
-        return $this->render('subject/index.html.twig', [
+        return $this->render('admin/subject/index.html.twig', [
             'subjects' => $subjectRepository->findAll()
         ]);
     }
@@ -46,7 +46,7 @@ class SubjectController extends AbstractController
             $entityManager->persist($subject);
             $entityManager->flush();
 
-            return $this->redirectToRoute('subject_index');
+            return $this->redirectToRoute('admin_subject_index');
             }
         return $this->render('subject/new.html.twig', ["form" => $form->createView()]);
     }
@@ -64,7 +64,7 @@ class SubjectController extends AbstractController
             $subject->setSlug($slug);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
-            return $this->redirectToRoute('subject_index');
+            return $this->redirectToRoute('admin_subject_index');
         }
         return $this->render('subject/edit.html.twig', ["form" => $form->createView(), 'subject' => $subject]);
     }
@@ -77,5 +77,32 @@ class SubjectController extends AbstractController
         return $this->render('subject/show.html.twig', [
             'subject' => $subject
         ]);
+    }
+
+
+    /**
+     * @Route("/delete/{id}", name="delete")
+     */
+    public function delete(Request $request, Subject $subject): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $subject->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($subject);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('admin_article_index');
+    }
+
+    /**
+     * @Route("/allow/{slug}", name="allow")
+     */
+    public function allow(Subject $subject): Response
+    {
+        $subject->setIsValidate(true);
+        $subject->getAuthor()->setContribution($subject->getAuthor()->getContribution() + 100);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('admin_subject_index');
     }
 }
