@@ -89,6 +89,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $eventsParticipation;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->subjects = new ArrayCollection();
@@ -366,6 +371,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->eventsParticipation->removeElement($eventsParticipation)) {
             $eventsParticipation->removePlayer($this);
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
