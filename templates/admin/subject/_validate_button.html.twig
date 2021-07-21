@@ -1,4 +1,4 @@
-<form method="POST" action="{{ path('admin_subject_allow', {'slug': subject.slug}) }}" onsubmit="return confirm('Ce subject est invisible pour la communauté, le rendre visible?');">
+<form method="POST" action="{{ path('admin_subject_allow', {'slug': subject.slug}) }}" onsubmit="return confirm('Ce subject sera validé et vu par la communauté');">
         <input type="hidden" name="hidden" value="{{ subject.slug }}">
         <button class="btn" value="subject.slug">Valider ?</button>
 </form>
