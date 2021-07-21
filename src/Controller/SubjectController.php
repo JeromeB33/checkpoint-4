@@ -95,7 +95,8 @@ class SubjectController extends AbstractController
         }
 
         return $this->render('subject/show.html.twig', [
-            'subject' => $subject
+            'subject' => $subject,
+            'form' => $form->createView()
         ]);
     }
 }

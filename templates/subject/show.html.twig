@@ -6,6 +6,7 @@
 {{ subject.title }}
 
 {{ include('comment/new.html.twig') }}
-{% for comment in comments %}
+{% for comment in subject.comments %}
+{{ comment.content }}{{ include('comment/_report_button.html.twig') }}
 {% endfor %}
 {% endblock %}
