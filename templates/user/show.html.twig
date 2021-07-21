@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Show User{% endblock %}
+
+{% block body %}
+{{ app.user.username }}
+<a href="{{ path('user_edit') }}">Modifier mon profile</a>
+{% endblock %}
