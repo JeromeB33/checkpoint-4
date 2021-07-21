@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Form\EventType;
+use App\Repository\EventRepository;
 use App\Service\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,10 +19,11 @@ class EventController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(): Response
+    public function index(EventRepository $eventRepository): Response
     {
+        $events = $eventRepository->findBy([], ['date' => 'ASC']);
         return $this->render('event/index.html.twig', [
-            'controller_name' => 'EventController',
+            'events' => $events
         ]);
     }
 
@@ -37,6 +39,7 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $slugify->generate($event->getTitle());
             $event->setSlug($slug);
+            $event->setCreator($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
             $entityManager->flush();
