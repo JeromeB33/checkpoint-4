@@ -4,5 +4,8 @@
 
 {% block body %}
 {{ subject.title }}
-<a href="">Modifier mon profile</a>
+
+{{ include('comment/new.html.twig') }}
+{% for comment in comments %}
+{% endfor %}
 {% endblock %}
