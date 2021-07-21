@@ -64,6 +64,11 @@ class Event
      */
     private $playerSlot;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
@@ -190,6 +195,18 @@ class Event
     public function setPlayerSlot(?int $playerSlot): self
     {
         $this->playerSlot = $playerSlot;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
