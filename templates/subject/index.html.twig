@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SubjectController!{% endblock %}
+
+{% block body %}
+{% for subject in subjects %}
+{{ subject.title }}
+{% endfor %}
+<a href="{{ path('subject_new') }}">Créer un sujet</a>
+{% endblock %}

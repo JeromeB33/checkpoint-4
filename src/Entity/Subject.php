@@ -22,7 +22,7 @@ class Subject
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $Title;
+    private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -32,7 +32,7 @@ class Subject
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="subjects")
      */
-    private $user;
+    private $author;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tags::class, mappedBy="subject")
@@ -49,6 +49,11 @@ class Subject
      */
     private $creationDate;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -62,12 +67,12 @@ class Subject
 
     public function getTitle(): ?string
     {
-        return $this->Title;
+        return $this->title;
     }
 
-    public function setTitle(?string $Title): self
+    public function setTitle(?string $title): self
     {
-        $this->Title = $Title;
+        $this->title = $title;
 
         return $this;
     }
@@ -84,14 +89,14 @@ class Subject
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getAuthor(): ?User
     {
-        return $this->user;
+        return $this->author;
     }
 
-    public function setUser(?User $user): self
+    public function setAuthor(?User $author): self
     {
-        $this->user = $user;
+        $this->author = $author;
 
         return $this;
     }
@@ -161,6 +166,18 @@ class Subject
     public function setCreationDate(?\DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
