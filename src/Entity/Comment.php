@@ -37,6 +37,11 @@ class Comment
      */
     private $commentDate;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $reported;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class Comment
     public function setCommentDate(?\DateTimeInterface $commentDate): self
     {
         $this->commentDate = $commentDate;
+
+        return $this;
+    }
+
+    public function getReported(): ?bool
+    {
+        return $this->reported;
+    }
+
+    public function setReported(?bool $reported): self
+    {
+        $this->reported = $reported;
 
         return $this;
     }
