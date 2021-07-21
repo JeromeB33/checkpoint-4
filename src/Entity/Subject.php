@@ -54,6 +54,11 @@ class Subject
      */
     private $slug;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isValidate;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -178,6 +183,18 @@ class Subject
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getIsValidate(): ?bool
+    {
+        return $this->isValidate;
+    }
+
+    public function setIsValidate(?bool $isValidate): self
+    {
+        $this->isValidate = $isValidate;
 
         return $this;
     }

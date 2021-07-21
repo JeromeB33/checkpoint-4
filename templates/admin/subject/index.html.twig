@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SubjectController!{% endblock %}
+
+{% block body %}
+{% for subject in subjects %}
+
+{% if subject.isValidate == false %}
+<h3>A valider</h3>
+{{ subject.title }}{{ include('admin/subject/_validate_button.html.twig') }}
+{% elseif subject.isValidate == true %}
+<h3>Sujet Valider</h3>
+{{ subject.title }}
+{% endif %}
+{% endfor %}
+<a href="{{ path('subject_new') }}">Créer un sujet</a>
+{% endblock %}
