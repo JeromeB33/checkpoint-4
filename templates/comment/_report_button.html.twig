@@ -1,0 +1,4 @@
+<form method="POST" action="{{ path('comment_report', {'id': comment.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir signaler ce commentaire ?');">
+        <input type="hidden" name="hidden" value="{{ comment.id }}">
+        <button class="btn" value="comment.id">Signaler</button>
+</form>

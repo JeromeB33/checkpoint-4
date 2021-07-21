@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Subject;
+use App\Form\CommentType;
 use App\Form\SubjectType;
 use App\Repository\SubjectRepository;
 use App\Service\Slugify;
@@ -11,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @Route("/subject", name="subject_")
@@ -72,8 +75,25 @@ class SubjectController extends AbstractController
     /**
      * @Route("/{slug}", name="show")
      */
-    public function show(Subject $subject): Response
+    public function show(Request $request, Subject $subject): Response
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            $entityManager = $this->getDoctrine()->getManager();
+            $comment->setsubject($subject);
+            $comment->setUser($user);
+            $comment->setCommentDate(new GlobalDateTime());
+            $user->setContribution($user->getContribution() + 10);
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('subject_show', ['slug' => $subject->getSlug()]);
+        }
+
         return $this->render('subject/show.html.twig', [
             'subject' => $subject
         ]);
