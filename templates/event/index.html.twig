@@ -7,7 +7,6 @@
 {% for event in events %}
 <h3>{{ event.title }}</h3>
 <ul>
-    <li>{{ event.title }}</li>
     <li>{{ event.game }}</li>
     <li><a href="{{ path('event_show', {'slug': event.slug}) }}">Voir</a></li>
 </ul>
