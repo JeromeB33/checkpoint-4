@@ -18,6 +18,7 @@ class EventType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ['label' => false])
+            ->add('synopsis', TextareaType::class, ['label' => false])
             ->add('description', CKEditorType::class, ['label' => false])
             ->add('game', TextType::class, ['label' => false])
             ->add('date', DateType::class, ['label' => false])
