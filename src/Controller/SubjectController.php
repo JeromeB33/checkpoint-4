@@ -7,6 +7,8 @@ use App\Entity\Subject;
 use App\Form\CommentType;
 use App\Form\SubjectType;
 use App\Repository\SubjectRepository;
+use App\Repository\TagsRepository;
+use App\Repository\UserRepository;
 use App\Service\Slugify;
 use DateTime as GlobalDateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,10 +25,14 @@ class SubjectController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(SubjectRepository $subjectRepository): Response
+    public function index(SubjectRepository $subjectRepository,
+    UserRepository $userRepository,
+    TagsRepository $tagsRepository): Response
     {
         return $this->render('subject/index.html.twig', [
-            'subjects' => $subjectRepository->findAll()
+            'tags' => $tagsRepository->findAll(),
+            'users' => $userRepository->findBy([], ['contribution' => 'DESC'], 5),
+            'subjects' => $subjectRepository->findBy([], ['creationDate' => 'DESC'])
         ]);
     }
 
@@ -42,7 +48,7 @@ class SubjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $slugify->generate($subject->getTitle());
             $subject->setSlug($slug);
-            $subject->setAuthor($this->getUser());
+            $subject->setUser($this->getUser());
             $subject->setCreationDate(new GlobalDateTime());
             $subject->setIsValidate(false);
             $entityManager = $this->getDoctrine()->getManager();

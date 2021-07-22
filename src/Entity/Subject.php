@@ -32,7 +32,7 @@ class Subject
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="subjects")
      */
-    private $author;
+    private $user;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tags::class, mappedBy="subject")
@@ -58,6 +58,11 @@ class Subject
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $isValidate;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $synopsis;
 
     public function __construct()
     {
@@ -94,14 +99,14 @@ class Subject
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getUser(): ?User
     {
-        return $this->author;
+        return $this->user;
     }
 
-    public function setAuthor(?User $author): self
+    public function setUser(?User $user): self
     {
-        $this->author = $author;
+        $this->user = $user;
 
         return $this;
     }
@@ -198,4 +203,17 @@ class Subject
 
         return $this;
     }
+
+    public function getSynopsis(): ?string
+    {
+        return $this->synopsis;
+    }
+
+    public function setSynopsis(?string $synopsis): self
+    {
+        $this->synopsis = $synopsis;
+
+        return $this;
+    }
+
 }

@@ -39,7 +39,7 @@ class SubjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $slugify->generate($subject->getTitle());
             $subject->setSlug($slug);
-            $subject->setAuthor($this->getUser());
+            $subject->setUser($this->getUser());
             $subject->setCreationDate(new GlobalDateTime());
             $subject->setIsValidate(false);
             $entityManager = $this->getDoctrine()->getManager();
@@ -100,7 +100,7 @@ class SubjectController extends AbstractController
     public function allow(Subject $subject): Response
     {
         $subject->setIsValidate(true);
-        $subject->getAuthor()->setContribution($subject->getAuthor()->getContribution() + 100);
+        $subject->getUser()->setContribution($subject->getUser()->getContribution() + 100);
         $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('admin_subject_index');

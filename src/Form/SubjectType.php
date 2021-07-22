@@ -24,7 +24,8 @@ class SubjectType extends AbstractType
                 'choice_label' => 'name',
                 'required' => false,
                 'multiple' => true,
-                'expanded' => true
+                'expanded' => true,
+                'by_reference' => false
             ])
         ;
     }
