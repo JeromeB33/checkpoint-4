@@ -16,9 +16,10 @@ class SubjectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('content', CKEditorType::class)
+            ->add('title', TextType::class, ['label' => false])
+            ->add('content', CKEditorType::class, ['label' => false])
             ->add('tags', EntityType::class, [
+                'label' => false,
                 'class' => Tags::class,
                 'choice_label' => 'name',
                 'required' => false,

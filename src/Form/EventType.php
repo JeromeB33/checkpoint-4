@@ -17,15 +17,16 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('description', CKEditorType::class)
-            ->add('game', TextType::class)
-            ->add('date', DateType::class)
-            ->add('duration', IntegerType::class)
+            ->add('title', TextType::class, ['label' => false])
+            ->add('description', CKEditorType::class, ['label' => false])
+            ->add('game', TextType::class, ['label' => false])
+            ->add('date', DateType::class, ['label' => false])
+            ->add('duration', IntegerType::class, ['label' => false])
             ->add('isStreamed', CheckboxType::class, [
+                'label' => false,
                 'required' => false
             ])
-            ->add('playerSlot', IntegerType::class)
+            ->add('playerSlot', IntegerType::class, ['label' => false])
         ;
     }
 

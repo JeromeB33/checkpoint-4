@@ -104,10 +104,12 @@ class EventController extends AbstractController
      */
     public function join(Event $event): Response
     {
-        $manager = $this->getDoctrine()->getManager();
-        $event->addPlayer($this->getUser());
-        $this->getUser()->setContribution($this->getUser()->getContribution() + 10);
-        $manager->flush();
+        if(count($event->getPlayers()) < $event->getPlayerSlot()){
+            $manager = $this->getDoctrine()->getManager();
+            $event->addPlayer($this->getUser());
+            $this->getUser()->setContribution($this->getUser()->getContribution() + 10);
+            $manager->flush();
+        }
 
         return $this->redirectToRoute('event_show', ['slug' => $event->getSlug()]);
     }
