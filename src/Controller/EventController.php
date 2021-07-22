@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Repository\UserRepository;
 use App\Service\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +20,11 @@ class EventController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(EventRepository $eventRepository): Response
+    public function index(EventRepository $eventRepository, UserRepository $userRepository): Response
     {
         $events = $eventRepository->findBy([], ['date' => 'ASC']);
         return $this->render('event/index.html.twig', [
+            'users' => $userRepository->findBy([], ['contribution' => 'DESC'], 5),
             'events' => $events
         ]);
     }
