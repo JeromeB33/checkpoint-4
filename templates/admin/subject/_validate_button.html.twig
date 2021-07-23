@@ -1,4 +1,4 @@
 <form method="POST" action="{{ path('dashboard_subject_allow', {'slug': subject.slug}) }}" onsubmit="return confirm('Ce sujet sera validé et vu par la communauté');">
         <input type="hidden" name="hidden" value="{{ subject.slug }}">
-        <button class="bg-blue-500 items-center text-white px-4 py-3 rounded-md focus:outline-none" value="subject.slug">Valider ?</button>
+        <button class="bg-blue-500 items-center mt-4 text-white px-4 py-3 rounded-md focus:outline-none" value="subject.slug">Valider ?</button>
 </form>

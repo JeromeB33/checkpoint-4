@@ -49,13 +49,13 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/report/{id}", name="report")
+     * @Route("/unreport/{id}", name="unreport")
      */
-    public function report(Comment $comment): Response
+    public function unreport(Comment $comment): Response
     {
-        $comment->setReported(true);
+        $comment->setReported(false);
         $this->getDoctrine()->getManager()->flush();
 
-        return $this->redirectToRoute('subject_show', ['slug' => $comment->getSubject()->getSlug()]);
+        return $this->redirectToRoute('dashboard_report');
     }
 }

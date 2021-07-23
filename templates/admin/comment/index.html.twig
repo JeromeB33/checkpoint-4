@@ -12,9 +12,11 @@
             <p style="width: 90%" class="text-gray-600 text-lg text-center md:text-left ">{{ comment.content }}</p>
         </div>
         <div class=" p-3 flex flex-col justify-center items-center md:items-start mb-4 w-1/6">
-        {{ include('admin/comment/_delete_form.html.twig') }}
-
         </div>
+    </div>
+    <div class="text-center">
+    {{ include('admin/comment/_delete_form.html.twig') }}
+    {{ include('admin/comment/_unsignal_form.html.twig') }}
     </div>
 {% endfor %}
 {% endblock %}
