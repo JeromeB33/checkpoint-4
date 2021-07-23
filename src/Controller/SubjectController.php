@@ -15,7 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @Route("/subject", name="subject_")
@@ -29,6 +28,9 @@ class SubjectController extends AbstractController
     UserRepository $userRepository,
     TagsRepository $tagsRepository): Response
     {
+        if ($this->getUser() == '') {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('subject/index.html.twig', [
             'tags' => $tagsRepository->findAll(),
             'users' => $userRepository->findBy([], ['contribution' => 'DESC'], 5),
@@ -41,6 +43,9 @@ class SubjectController extends AbstractController
      */
     public function new(Request $request, Slugify $slugify): Response
     {
+        if ($this->getUser() == '') {
+            return $this->redirectToRoute('app_login');
+        }
         $subject = new Subject();
         $form = $this->createForm(SubjectType::class, $subject);
         $form->handleRequest($request);
@@ -65,6 +70,9 @@ class SubjectController extends AbstractController
      */
     public function edit(Request $request,Slugify $slugify, Subject $subject): Response
     {
+        if ($this->getUser() == '') {
+            return $this->redirectToRoute('app_login');
+        }
         $form = $this->createForm(SubjectType::class, $subject);
         $form->handleRequest($request);
 
@@ -83,6 +91,9 @@ class SubjectController extends AbstractController
      */
     public function show(Request $request, Subject $subject): Response
     {
+        if ($this->getUser() == '') {
+            return $this->redirectToRoute('app_login');
+        }
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);

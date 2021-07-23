@@ -1,0 +1,20 @@
+{% extends 'admin/admin_base.html.twig' %}
+
+{% block title %}Hello SubjectController!{% endblock %}
+
+{% block body %}
+{% for comment in reportcom %}
+<div class="flex mt-2 items-center bg-white border-blue-100 border-2 shadow-lg rounded-lg w-4/6">
+        <div class=" p-3 flex flex-col justify-center items-center md:items-start mb-4 w-5/6">
+        <div class="flex flex-row justify-center mr-2">
+            <h3 class="text-blue-500 font-semibold text-lg text-center md:text-left ">{{ comment.user.username }}</h3>
+        </div>
+            <p style="width: 90%" class="text-gray-600 text-lg text-center md:text-left ">{{ comment.content }}</p>
+        </div>
+        <div class=" p-3 flex flex-col justify-center items-center md:items-start mb-4 w-1/6">
+        {{ include('admin/comment/_delete_form.html.twig') }}
+
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

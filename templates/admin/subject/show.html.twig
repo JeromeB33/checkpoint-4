@@ -1,0 +1,30 @@
+{% extends 'admin/admin_base.html.twig' %}
+
+{% block title %}Forum{% endblock %}
+
+{% block body %}
+<div class="flex justify-center">
+    <div class="w-5/6 px-10 my-4 py-6 bg-gray-100 border-2 rounded-lg border-blue-200 rounded-lg shadow-md">
+        <div class="flex justify-between items-center">
+            <span class="font-light text-gray-600">{{ subject.creationDate|date("m/d/Y") }}</span>
+        </div>
+        <div class="text-center mt-2">
+            <a class="text-3xl text-gray-700 font-bold hover:text-gray-600" href="#">{{ subject.title }}</a>
+            <p class="mt-6 text-gray-600">{{ subject.synopsis }}</p>
+        </div>
+        <div class="mt-2">
+            <p class="mt-6 text-gray-600">{{ subject.content|raw }}</p>
+        </div>
+        <div class="flex justify-between items-center mt-4">
+            <div>
+                <a class="flex items-center" href="#">
+                    <h1 class="text-gray-700 font-bold">{{ subject.user.username }}</h1>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ include('admin/subject/_validate_button.html.twig') }}
+{{ include('admin/subject/_delete_form.html.twig') }}
+{% endblock %}

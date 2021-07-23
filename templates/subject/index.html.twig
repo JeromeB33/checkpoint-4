@@ -10,6 +10,7 @@
                     <h1 class="text-xl font-bold text-gray-700 md:text-2xl">Tous les sujets</h1>
                 </div>
                 {% for subject in subjects %}
+                {% if subject.validate == true %}
                 <div class="mt-6">
                     <div class="max-w-4xl px-10 py-6 mx-auto bg-white border-2 rounded-lg border-blue-100 shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out">
                         <div class="flex justify-between"><span class="font-light text-gray-600">{{ subject.creationDate|date("m/d/Y")}}</span>
@@ -30,6 +31,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
                 {% endfor %}
             </div>
             <div class="hidden w-4/12 -mx-8 lg:block">

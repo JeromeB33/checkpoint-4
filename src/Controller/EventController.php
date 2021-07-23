@@ -22,6 +22,9 @@ class EventController extends AbstractController
      */
     public function index(EventRepository $eventRepository, UserRepository $userRepository): Response
     {
+        if ($this->getUser() == '') {
+            return $this->redirectToRoute('app_login');
+        }
         $events = $eventRepository->findBy([], ['date' => 'ASC']);
         return $this->render('event/index.html.twig', [
             'users' => $userRepository->findBy([], ['contribution' => 'DESC'], 5),
@@ -34,6 +37,9 @@ class EventController extends AbstractController
      */
     public function new(Request $request, Slugify $slugify): Response
     {
+        if ($this->getUser() == '') {
+            return $this->redirectToRoute('app_login');
+        }
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
@@ -60,6 +66,9 @@ class EventController extends AbstractController
      */
     public function show(Event $event): Response
     {
+        if ($this->getUser() == '') {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('event/show.html.twig', [
             'event' => $event
         ]);
@@ -70,6 +79,9 @@ class EventController extends AbstractController
      */
     public function edit(Request $request, Event $event, Slugify $slugify): Response
     {
+        if ($this->getUser() == '') {
+            return $this->redirectToRoute('app_login');
+        }
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
@@ -112,6 +124,19 @@ class EventController extends AbstractController
             $this->getUser()->setContribution($this->getUser()->getContribution() + 10);
             $manager->flush();
         }
+
+        return $this->redirectToRoute('event_show', ['slug' => $event->getSlug()]);
+    }
+
+    /**
+     * @Route("/leave/{slug}", name="leave")
+     */
+    public function leave(Event $event): Response
+    {
+            $manager = $this->getDoctrine()->getManager();
+            $event->removePlayer($this->getUser());
+            $this->getUser()->setContribution($this->getUser()->getContribution() - 10);
+            $manager->flush();
 
         return $this->redirectToRoute('event_show', ['slug' => $event->getSlug()]);
     }

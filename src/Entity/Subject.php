@@ -57,7 +57,7 @@ class Subject
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $isValidate;
+    private $validate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -192,14 +192,14 @@ class Subject
         return $this;
     }
 
-    public function getIsValidate(): ?bool
+    public function getvalidate(): ?bool
     {
-        return $this->isValidate;
+        return $this->validate;
     }
 
-    public function setIsValidate(?bool $isValidate): self
+    public function setIsvalidate(?bool $validate): self
     {
-        $this->isValidate = $isValidate;
+        $this->validate = $validate;
 
         return $this;
     }
