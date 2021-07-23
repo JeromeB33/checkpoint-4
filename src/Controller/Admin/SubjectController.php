@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/subject", name="admin_subject_")
+ * @Route("/dashboard/subject", name="dashboard_subject_")
  */
 class SubjectController extends AbstractController
 {
@@ -39,7 +39,7 @@ class SubjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $slugify->generate($subject->getTitle());
             $subject->setSlug($slug);
-            $subject->setAuthor($this->getUser());
+            $subject->setUser($this->getUser());
             $subject->setCreationDate(new GlobalDateTime());
             $subject->setIsValidate(false);
             $entityManager = $this->getDoctrine()->getManager();
@@ -70,17 +70,6 @@ class SubjectController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="show")
-     */
-    public function show(Subject $subject): Response
-    {
-        return $this->render('subject/show.html.twig', [
-            'subject' => $subject
-        ]);
-    }
-
-
-    /**
      * @Route("/delete/{id}", name="delete")
      */
     public function delete(Request $request, Subject $subject): Response
@@ -91,7 +80,7 @@ class SubjectController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_article_index');
+        return $this->redirectToRoute('dashboard_validation');
     }
 
     /**
@@ -100,9 +89,9 @@ class SubjectController extends AbstractController
     public function allow(Subject $subject): Response
     {
         $subject->setIsValidate(true);
-        $subject->getAuthor()->setContribution($subject->getAuthor()->getContribution() + 100);
+        $subject->getUser()->setContribution($subject->getUser()->getContribution() + 100);
         $this->getDoctrine()->getManager()->flush();
 
-        return $this->redirectToRoute('admin_subject_index');
+        return $this->redirectToRoute('dashboard_validation');
     }
 }

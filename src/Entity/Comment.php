@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
@@ -24,11 +25,13 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity=Subject::class, inversedBy="comments")
+     * @JoinColumn(onDelete="CASCADE")
      */
     private $subject;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+     * @JoinColumn(onDelete="CASCADE")
      */
     private $user;
 

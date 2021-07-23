@@ -1,16 +1,103 @@
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Event index{% endblock %}
+{% block title %}Event{% endblock %}
 
 {% block body %}
-
-{% for event in events %}
-<h3>{{ event.title }}</h3>
-<ul>
-    <li>{{ event.game }}</li>
-    <li><a href="{{ path('event_show', {'slug': event.slug}) }}">Voir</a></li>
-</ul>
-{% endfor %}
-<a href="{{ path('event_new') }}">Créer un evenement</a>
+    <div class="px-6 py-8">
+        <div class="container flex justify-between mx-auto">
+            <div class="w-full lg:w-8/12">
+                <div class="flex">
+                    <h1 class="text-xl font-bold text-gray-700 md:text-2xl">Tous les Events</h1>
+                </div>
+                <div class="flex flex-wrap">
+                    {% for event in events %}
+                    <div class="w-80 mx-auto">
+                        <div class="flex items-center justify-center">
+                            <div class="max-w-sm w-full sm:w-full lg:w-full py-6 px-3">
+                                <div class="bg-white shadow-md border-2 border-blue-100 rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out">
+                                    <div class="p-4"><a href="{{ path('event_show', {'slug': event.slug}) }}">
+                                        <p class="uppercase tracking-wide text-xl mb-3 font-bold text-gray-700">{{ event.title }}</p>
+                                        <p class="mb-2 text-gray-900">{{ event.game }}</p>
+                                        <p class="text-gray-700">{{ event.date|date('d-m-Y à H:i') }}</p>
+                                        <p class="text-gray-700">{{ event.duration }} heures</p></a>
+                                    </div>
+                                    <div class="flex p-4 border-t border-gray-300 text-gray-700">
+                                        <div class="flex-1 inline-flex items-center">
+                                            <p><span class="text-gray-900 font-bold">{{ event.playerSlot }}</span> places</p>
+                                        </div>
+                                        <div class="flex-1 inline-flex items-center">
+                                            <p><span class="text-gray-900 font-bold">{{ event.players|length }}</span> participants</p>
+                                        </div>
+                                    </div>
+                                    <div class="px-4 pt-3 pb-4 border-t border-gray-300 bg-blue-500">
+                                        <div class="flex items-center pt-2">
+                                            <div class="bg-cover bg-center w-10 h-10 rounded-full mr-3" style="background-image: url(https://via.placeholder.com/50x50)">
+                                            </div>
+                                            <div>
+                                                <p class="font-bold text-white">{{ event.creator.username }}</p>
+                                                {% if event.creator.twitchChannel != null and event.isStreamed == true %}
+                                                <p class="text-sm text-gray-900"><a href="{{ event.creator.twitchChannel }}">{{ event.creator.twitchChannel }}</a></p>
+                                                {% else %}
+                                                <p class="text-sm text-gray-900">Event non streamé</p>
+                                                {% endif %}
+                                                {% if event.creator.discord != null %}
+                                                <p class="text-sm text-gray-900">Discord user</p>
+                                                {% else %}
+                                                <p class="text-sm text-gray-900">Discord general</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="hidden w-4/12 -mx-8 lg:block">
+                <div class="px-8">
+                    <h1 class="mb-4 text-xl font-bold text-gray-700">Les utilisateurs plus actifs</h1>
+                    <div class="flex flex-col max-w-sm px-6 py-4 mx-auto bg-white border-2 rounded-lg border-blue-100 rounded-lg shadow-md">
+                        <ul class="-mx-4">
+                        {% for user in users %}
+                            <li class="flex items-center">
+                                <p><a href="#" class="mx-1 font-bold text-gray-700 hover:underline">{{ user.username }}</a><span
+                                        class="text-sm font-light text-gray-700"> {% if user.contribution <= 0 %}
+                                        0 point
+                                        {% else %}
+                                        {{user.contribution}} points 
+                                        {% endif %}
+                                </span></p>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="px-8 mt-10">
+                    <h1 class="mb-4 text-xl font-bold text-gray-700">Prochain Event</h1>
+                    <div class="flex flex-col max-w-sm px-6 py-4 mx-auto bg-white border-2 rounded-lg border-blue-100 rounded-lg shadow-md">
+                        <ul class="-mx-4">
+                        {% for user in users %}
+                            <li class="flex items-center">
+                                <p><a href="#" class="mx-1 font-bold text-gray-700 hover:underline">{{ user.username }}</a><span
+                                        class="text-sm font-light text-gray-700"> {% if user.contribution <= 0 %}
+                                        0 point
+                                        {% else %}
+                                        {{user.contribution}} points 
+                                        {% endif %}
+                                </span></p>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="px-8 mt-10">
+                    <div class="flex flex-col max-w-sm px-4 py-6 mx-auto">
+                        <h3 class="mb-4 text-xl font-bold text-gray-700"><a href="{{ path('event_new') }}"><button class="bg-blue-500 flex justify-center items-center w-full text-white px-4 py-3 rounded-md focus:outline-none">Créer un event</button></a></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

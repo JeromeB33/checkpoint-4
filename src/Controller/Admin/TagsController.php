@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("admin/tags", name="admin_tags_")
+ * @Route("dashboard/tags", name="dashboard_tags_")
  */
 class TagsController extends AbstractController
 {

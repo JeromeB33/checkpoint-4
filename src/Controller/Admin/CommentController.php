@@ -10,7 +10,7 @@ use App\Entity\Comment;
 use App\Form\CommentType;
 
 /**
- * @Route("/comment", name="comment_")
+ * @Route("dashboard/comment", name="dashboard_comment_")
  */
 class CommentController extends AbstractController
 {
@@ -45,7 +45,7 @@ class CommentController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('subject_show', ["slug" => $comment->getSubject()->getSlug()]);
+        return $this->redirectToRoute('dashboard_report');
     }
 
     /**

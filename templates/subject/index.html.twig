@@ -1,10 +1,75 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SubjectController!{% endblock %}
+{% block title %}Forum{% endblock %}
 
 {% block body %}
-{% for subject in subjects %}
-{{ subject.title }}
-{% endfor %}
-<a href="{{ path('subject_new') }}">Créer un sujet</a>
+<div class="px-6 py-8">
+        <div class="container flex justify-between mx-auto">
+            <div class="w-full lg:w-8/12">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-xl font-bold text-gray-700 md:text-2xl">Tous les sujets</h1>
+                </div>
+                {% for subject in subjects %}
+                {% if subject.validate == true %}
+                <div class="mt-6">
+                    <div class="max-w-4xl px-10 py-6 mx-auto bg-white border-2 rounded-lg border-blue-100 shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out">
+                        <div class="flex justify-between"><span class="font-light text-gray-600">{{ subject.creationDate|date("m/d/Y")}}</span>
+                        {% for tag in subject.tags %}
+                            <a href="#" class="px-2 py-1 font-bold text-gray-100 bg-gray-600 rounded hover:bg-gray-500">
+                                    {{ tag.name }}
+                            </a>
+                            {% endfor %}
+                        </div>
+                        <div class="mt-2"><a href="#" class="text-2xl font-bold text-gray-700 hover:underline">{{ subject.title }}</a>
+                            <p class="mt-2 text-gray-600">{{ subject.synopsis }}</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-4"><a href="{{ path('subject_show', {'slug': subject.slug}) }}"
+                                class="text-blue-500 hover:underline">Read more</a>
+                            <div><a href="#" class="flex items-center">
+                                    <h1 class="font-bold text-gray-700 hover:underline">{{ subject.user.username}}</h1>
+                                </a></div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div class="hidden w-4/12 -mx-8 lg:block">
+                <div class="px-8">
+                    <h1 class="mb-4 text-xl font-bold text-gray-700">Les utilisateurs plus actifs</h1>
+                    <div class="flex flex-col max-w-sm px-6 py-4 mx-auto bg-white border-2 rounded-lg border-blue-100 rounded-lg shadow-md">
+                        <ul class="-mx-4">
+                        {% for user in users %}
+                            <li class="flex items-center">
+                                <p><a href="#" class="mx-1 font-bold text-gray-700 hover:underline">{{ user.username }}</a><span
+                                        class="text-sm font-light text-gray-700"> {% if user.contribution <= 0 %}
+                                        0 point
+                                        {% else %}
+                                        {{user.contribution}} points 
+                                        {% endif %}
+                                </span></p>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="px-8 mt-10">
+                    <h1 class="mb-4 text-xl font-bold text-gray-700">Tous les tag</h1>
+                    <div class="flex flex-col max-w-sm px-4 py-6 mx-auto bg-white border-2 rounded-lg border-blue-100 rounded-lg shadow-md">
+                        <ul>
+                        {% for tag in tags %}
+                            <li><a href="#" class="mx-1 font-bold text-gray-700 hover:text-gray-600 hover:underline">-
+                                    {{ tag.name }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="px-8 mt-10">
+                    <div class="flex flex-col max-w-sm px-4 py-6 mx-auto">
+                        <h3 class="mb-4 text-xl font-bold text-gray-700"><a href="{{ path('subject_new') }}"><button class="bg-blue-500 flex justify-center items-center w-full text-white px-4 py-3 rounded-md focus:outline-none">Créer un sujet</button></a></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

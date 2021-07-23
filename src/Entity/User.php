@@ -203,7 +203,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->subjects->contains($subject)) {
             $this->subjects[] = $subject;
-            $subject->setAuthor($this);
+            $subject->setUser($this);
         }
 
         return $this;
@@ -213,8 +213,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->subjects->removeElement($subject)) {
             // set the owning side to null (unless already changed)
-            if ($subject->getAuthor() === $this) {
-                $subject->setAuthor(null);
+            if ($subject->getUser() === $this) {
+                $subject->setUser(null);
             }
         }
 
